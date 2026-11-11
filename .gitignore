@@ -1,0 +1,18 @@
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# 诊断倾倒（体积大且与本机绑定）
+EFI/SysReport/
+EFI/OC/ACPI/*.aml.bak
+
+# 自行生成、不应提交的 SMBIOS
+config-personal.plist
+*.secret
+
+# 音频测试产物
+tools/bin/
+*.wav
+*.caf
