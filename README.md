@@ -1,9 +1,29 @@
 # EFI-MAC-RedmiBook14-i7-10510U
 
+[![Release](https://img.shields.io/github/v/release/lieren2012/EFI-MAC-RedmiBook14-i7-10510U?label=release)](https://github.com/lieren2012/EFI-MAC-RedmiBook14-i7-10510U/releases/latest)
+[![macOS](https://img.shields.io/badge/macOS-Tahoe%2026.7.2-blue)](https://github.com/lieren2012/EFI-MAC-RedmiBook14-i7-10510U)
+[![OpenCore](https://img.shields.io/badge/OpenCore-1.0.8%20DEBUG-green)](https://github.com/acidanthera/OpenCorePkg)
+
 > 红米 **RedmiBook 14 增强版（2019，XMA1901）** · Intel **i7-10510U**（Comet Lake-U / 4C8T）· 核显 **UHD 620**（`0x9B3E`）· **macOS Tahoe 26.7.2**
 > 蓝牙 / WiFi / 扬声器 / 麦克风 / 触摸板手势 / 亮度 / 电池 / 休眠 全部可用，且 **SIP 可以全开**。
 
 **English**: OpenCore EFI and full write-up for Xiaomi **RedmiBook 14 Enhanced Edition (2019, XMA1901)**, i7-10510U / Comet Lake-U, running macOS Tahoe 26.7.2. Bluetooth, Wi-Fi, audio (speaker + built-in mic), I2C touchpad gestures, brightness, battery and sleep all work with SIP fully enabled.
+
+---
+
+## 下载
+
+**不想 clone 就直接下打包好的 zip（40 MB，含 EFI + 文档 + 工具）**
+
+[⬇️ EFI-MAC-RedmiBook14-i7-10510U-v1.0.zip](https://github.com/lieren2012/EFI-MAC-RedmiBook14-i7-10510U/releases/latest)
+
+```bash
+# 或者 clone（只有源码，需自己执行 scripts/fetch-kexts.sh 补 SimpleHDA）
+git clone https://github.com/lieren2012/EFI-MAC-RedmiBook14-i7-10510U.git
+cd EFI-MAC-RedmiBook14-i7-10510U
+```
+
+> ⚠️ 用之前务必先做三件事：**自己生成 SMBIOS**（仓库内是占位值）、**跑 `scripts/fetch-kexts.sh`**、**确认 `SecureBootModel = Disabled`**。详见下方「快速开始」。
 
 ---
 
@@ -107,7 +127,7 @@ ioreg -r -c AppleHDAEngineInput
 ## 快速开始
 
 ```bash
-git clone https://github.com/<your-name>/EFI-MAC-RedmiBook14-i7-10510U.git
+git clone https://github.com/lieren2012/EFI-MAC-RedmiBook14-i7-10510U.git
 cd EFI-MAC-RedmiBook14-i7-10510U
 
 # 1. 补齐不随仓库分发的 kext（SimpleHDA，作者未声明许可证）
@@ -180,7 +200,7 @@ darkwake=0 ps2kbdonly=1 alcverbs=1 -ibtcompatbeta -vi2c-force-polling msgbuf=104
 
 ## 已知问题
 
-- **SimpleHDA 输入流并发问题**：多个 App 同时录音、或输入流重启时，DMA 环会被打死，只能重启恢复。已整理报告在 issue 区，等待作者修复。
+- **SimpleHDA 输入流并发问题**：多个 App 同时录音、或输入流重启时，DMA 环会被打死，只能重启恢复。实测证据链见 [docs/03](docs/03-修复记录与根因.md)，已整理成可提交的 bug 报告。
 - **Intel 无线网卡**不支持隔空投送 / 接力 / 随航。
 - 触摸板走轮询（`-vi2c-force-polling`），闲置功耗略高，但比 GPIO 中断稳定。
 
